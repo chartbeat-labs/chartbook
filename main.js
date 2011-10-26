@@ -81,7 +81,7 @@ cb.topWidget = function(){
 	drawWidget = function(topPgs) {
 		var fbgUrl = "https://graph.facebook.com/"
 		console.debug(topPgs);
-		list = goog.dom.createElement('ul','cbwidget');
+		list = goog.dom.createDom('ul',{"class":"cbwidget","id":"cdwidgetId"});
 		goog.dom.appendChild(topNode,list);
 		len = topPgs.length;
 		for (var itr = 0; itr < len; ++itr) {
@@ -107,6 +107,7 @@ cb.topWidget = function(){
 		// Style it 
 		var allSS = goog.cssom.getAllCssStyleSheets();
 		var ss = allSS[allSS.length - 1];
+		goog.cssom.addCssRule(ss,"ul.cbwidget { width: 300px;}");
 		goog.cssom.addCssRule(ss,"img.cbwitem-img { width: 100px; float: left; }");
 		goog.cssom.addCssRule(ss,"div.cbwitem-div { clear: left; }");
 		console.debug(ss);
