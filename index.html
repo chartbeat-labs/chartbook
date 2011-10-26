@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 5.00 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<script type="text/javascript" src="closure-library/closure/goog/base.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chartbook</title>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+	window.fbAsyncInit = function() {
+	  FB.init({
+	    appId      : '305363076143749', // App ID
+	    channelURL : '//local.chartbeat.com:8080/chartbook/channel.html', // Channel File
+	    status     : true, // check login status
+	    cookie     : true, // enable cookies to allow the server to access the session
+	    oauth      : false, // enable OAuth 2.0
+	    xfbml      : false  // parse XFBML
+	  });
+	
+	  // Additional initialization code here
+	};
+	
+	// Load the SDK Asynchronously
+	(function(d){
+	   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+	   js = d.createElement('script'); js.id = id; js.async = true;
+	   js.src = "//connect.facebook.net/en_US/all.js";
+	   d.getElementsByTagName('head')[0].appendChild(js);
+	 }(document));
+</script>
+
+This is the Body
+
+<div id="topnode">
+</div>
+
+</body>
+<script type="text/javascript"> 
+	var chartBeatWidget = new cb.topWidget();
+	chartBeatWidget.insertWidget('marketwatch.com','52e92854b08bbe7dbed1311cd83a8824','topnode');
+</script>
+</html>
