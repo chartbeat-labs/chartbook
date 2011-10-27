@@ -92,16 +92,17 @@ cb.topWidget = function(){
 			var pos = (itr%2 == 0) ? "even" : "odd";
 			goog.dom.appendChild(list, goog.dom.createDom("li",{"class":"cbwitem","id":"cbwitem-".concat(itr)},
 					goog.dom.createDom('div',{"class":"cbwitem-div " + pos,"id":"cbwitem-div-".concat(itr)},
-							item = goog.dom.createDom('div',{"class":"cbwimg-div","id":"cbwimg-div-".concat(itr)}),
+							imgNode = goog.dom.createDom('div',{"class":"cbwimg-div","id":"cbwimg-div-".concat(itr)}),
 							goog.dom.createDom('div',{"class":"cbwtextonly-div","id":"cbwtext-div-".concat(itr)},
-							goog.dom.createDom('a',{"class":"cbwitem-a","id":"cbwitem-a-".concat(itr),"href":"http://".concat(pg.path)}, pg.i),
+							aNode = goog.dom.createDom('a',{"class":"cbwitem-a","id":"cbwitem-a-".concat(itr),"href":"http://".concat(pg.path)}),
 							goog.dom.createDom('br',null),goog.dom.createDom('span',{"class":"cbwvisits","id":"cbwvisits-".concat(itr)},"Current Visitors: ".concat(pg.visitors)),
 							goog.dom.createDom('br',null),goog.dom.createDom('span',{"class":"cbwlikes","id":"cbwvisits-".concat(itr)},"Shares: ".concat(pg.shares))
 							),
 						goog.dom.createDom('div',{"class":"cbwclear","id":"cbwclear-".concat(itr)}))
 			));
+			aNode.innerHTML = pg.i;
 			if ( typeof(pg.fbId) != 'undefined' ) {
-				pg.imgLdr.par = item
+				pg.imgLdr.par = imgNode
 				pg.imgLdr.itmIdx = itr;
 				goog.events.listen(pg.imgLdr, goog.net.EventType.COMPLETE, function(e) {
 					if ( this.getLastError() !== "" ) return;
