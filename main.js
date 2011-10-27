@@ -93,7 +93,7 @@ cb.topWidget = function(){
 			goog.dom.appendChild(list, goog.dom.createDom("li",{"class":"cbwitem","id":"cbwitem-".concat(itr)},
 					goog.dom.createDom('div',{"class":"cbwitem-div " + pos,"id":"cbwitem-div-".concat(itr)},
 							item = goog.dom.createDom('div',{"class":"cbwimg-div","id":"cbwimg-div-".concat(itr)}),
-							goog.dom.createDom('div',{"class":"cbwtext-div","id":"cbwtext-div-".concat(itr)},
+							goog.dom.createDom('div',{"class":"cbwtextonly-div","id":"cbwtext-div-".concat(itr)},
 							goog.dom.createDom('a',{"class":"cbwitem-a","id":"cbwitem-a-".concat(itr),"href":"http://".concat(pg.path)}, pg.i),
 							goog.dom.createDom('br',null),goog.dom.createDom('span',{"class":"cbwvisits","id":"cbwvisits-".concat(itr)},"Current Visitors: ".concat(pg.visitors)),
 							goog.dom.createDom('br',null),goog.dom.createDom('span',{"class":"cbwlikes","id":"cbwvisits-".concat(itr)},"Shares: ".concat(pg.shares))
@@ -106,9 +106,12 @@ cb.topWidget = function(){
 				goog.events.listen(pg.imgLdr, goog.net.EventType.COMPLETE, function(e) {
 					if ( this.getLastError() !== "" ) return;
 					fbgData = this.getResponseJson();
+					goog.dom.setProperties(goog.dom.getNextElementSibling(this.par), {"class":"cbwtext-div"});
 					goog.dom.insertChildAt(this.par,goog.dom.createDom("img",{"class":"cbwitem-img","id":"cbwitem-img-".concat(this.itmIdx),"src":fbgData.image[0].url}),0);
 				});
 				pg.imgLdr.send(fbgUrl.concat(pg.fbId));
+			} else {
+				pg.imgLdr = null;
 			}
 		}
 		
@@ -132,6 +135,7 @@ cb.topWidget = function(){
 			goog.cssom.addCssRule(ss,"div.even { background-color:white }");
 			goog.cssom.addCssRule(ss,"div.odd { background-color:#e5e5e5 }");
 			goog.cssom.addCssRule(ss,"div.cbwtext-div { width:200px; padding:3px; float: right; font-family: 'Helvetica'; font-size: 10pt; }");
+			goog.cssom.addCssRule(ss,"div.cbwtextonly-div { width:100%; padding:3px; font-family: 'Helvetica'; font-size: 10pt; }");
 			goog.cssom.addCssRule(ss,"a.cbwitem-a { font-weight: bold }");
 			goog.cssom.addCssRule(ss,"a.cbwitem-a:link { text-decoration:none; }");
 			goog.cssom.addCssRule(ss,"div.cbwimg-div { width:75px; float: left; }");
