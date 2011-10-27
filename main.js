@@ -12,13 +12,14 @@ if (typeof(cb) == 'undefined') cb = {};
 
 cb.topWidget = function(){
 	
-	var MAX_ITEMS = 10
-	var MAX_IMG = 3;
+	var MAX_ITEMS = 10;
+	var title;
+	var noStyle;
 	
 	getData = function(domain,cb_key,callback,opt_exlexp) {
 		var exlExp;
 		// Exclude home pages by default
-		if (typeof(opt_exlepp) == 'undefined') { exlExp = new RegExp(domain.concat("/*$")); } 
+		if(typeof(opt_exlexp) == 'undefined' || opt_exlexp == null ) { exlExp = new RegExp(domain.concat("/*$")); } 
 		else { exlExp = new RegExp(opt_exlepp); }
 		// console.debug("exlExp: " + exlExp);
 		var cbUrl ='http://api.chartbeat.com/live/toppages/?host='.concat(domain,'&limit=',MAX_ITEMS,'&apikey=',cb_key);
@@ -47,7 +48,7 @@ cb.topWidget = function(){
 				}
 			}
 			fbUrl = fbUrl.concat(fbpgq);
-			// console.debug(fbUrl);
+			console.debug(fbUrl);
 			goog.net.XhrIo.send(fbUrl, function(fbe) {
 				fbxhr = fbe.target;
 				fbData = fbxhr.getResponseXml();
@@ -84,11 +85,13 @@ cb.topWidget = function(){
 		list = goog.dom.createDom('ul',{"class":"cbwidget","id":"cdwidgetId"});
 		goog.dom.appendChild(topNode,list);
 		len = topPgs.length;
+		// List
 		for (var itr = 0; itr < len; ++itr) {
 			var pg = topPgs[itr];
 			var item;
+			var pos = (itr%2 == 0) ? "even" : "odd";
 			goog.dom.appendChild(list, goog.dom.createDom("li",{"class":"cbwitem","id":"cbwitem-".concat(itr)},
-					goog.dom.createDom('div',{"class":"cbwitem-div","id":"cbwitem-div-".concat(itr)},
+					goog.dom.createDom('div',{"class":"cbwitem-div " + pos,"id":"cbwitem-div-".concat(itr)},
 							item = goog.dom.createDom('div',{"class":"cbwimg-div","id":"cbwimg-div-".concat(itr)}),
 							goog.dom.createDom('div',{"class":"cbwtext-div","id":"cbwtext-div-".concat(itr)},
 							goog.dom.createDom('a',{"class":"cbwitem-a","id":"cbwitem-a-".concat(itr),"href":"http://".concat(pg.path)}, pg.i),
@@ -109,20 +112,44 @@ cb.topWidget = function(){
 			}
 		}
 		
+		// Header
+		if ( typeof(title) == 'undefined' || title == null) title = "Top Pages";
+		goog.dom.insertChildAt(list,goog.dom.createDom("li",{"class":"cbwheader","id":"cbwheader"},title),0);
+		// Logo
+		goog.dom.appendChild(list,goog.dom.createDom("li",{"class":"cbwlogoitem","id":"cbwlogoitem"},
+				goog.dom.createDom('a',{"class":"cbwlogo-a","id":"cbwlogo-a","href":"http://www.chartbeat.com"},"Powered By:",
+				goog.dom.createDom("img",{"class":"cbwlogo","id":"cbwlogo","src":"/chartbook/logo_chartbeat_small.gif"})),
+				goog.dom.createDom('div',{"class":"cbwclear","id":"cbwclear"})
+			));
+		
 		// Style it 
-		var allSS = goog.cssom.getAllCssStyleSheets();
-		var ss = allSS[allSS.length - 1];
-		goog.cssom.addCssRule(ss,"ul.cbwidget { width: 375px; list-style-type: none; }");
-		goog.cssom.addCssRule(ss,"div.cbwtext-div { width:280px; float: right; font-family: 'Helvetica'; font-size: 12px; }");
-		goog.cssom.addCssRule(ss,"a.cbwitem-a { font-weight: bold }");
-		goog.cssom.addCssRule(ss,"a.cbwitem-a:link { text-decoration:none; }");
-		goog.cssom.addCssRule(ss,"div.cbwimg-div { width:75px; float: left; }");
-		goog.cssom.addCssRule(ss,"img.cbwitem-img { width: 75px; }");
-		goog.cssom.addCssRule(ss,"div.cbwclear { clear:both; }");
+		console.debug(typeof(noStyle));
+		if ( (typeof(noStyle) == 'undefined' || noStyle == null ) || !Boolean(noStyle) ) {
+			var allSS = goog.cssom.getAllCssStyleSheets();
+			var ss = allSS[allSS.length - 1];
+			goog.cssom.addCssRule(ss,"ul.cbwidget { width: 300px; list-style-type: none; border: 2px solid black; padding: 0px }");
+			goog.cssom.addCssRule(ss,"div.cbwitem-div { padding:3px }");
+			goog.cssom.addCssRule(ss,"div.even { background-color:white }");
+			goog.cssom.addCssRule(ss,"div.odd { background-color:#e5e5e5 }");
+			goog.cssom.addCssRule(ss,"div.cbwtext-div { width:200px; padding:3px; float: right; font-family: 'Helvetica'; font-size: 10pt; }");
+			goog.cssom.addCssRule(ss,"a.cbwitem-a { font-weight: bold }");
+			goog.cssom.addCssRule(ss,"a.cbwitem-a:link { text-decoration:none; }");
+			goog.cssom.addCssRule(ss,"div.cbwimg-div { width:75px; float: left; }");
+			goog.cssom.addCssRule(ss,"img.cbwitem-img { width: 75px; }");
+			goog.cssom.addCssRule(ss,"div.cbwclear { clear:both; }");
+			goog.cssom.addCssRule(ss,"li.cbwheader { padding:3px; background-color:black; color: white; font: bold 12pt Helvetica }");
+			goog.cssom.addCssRule(ss,"li.cbwlogoitem { padding:3px; background-color:black; color: white; font: bold 10pt Helvetica }");
+			goog.cssom.addCssRule(ss,"img.cbwlogo { float:right;}");
+			goog.cssom.addCssRule(ss,"a.cbwlogo-a:link { text-decoration:none; color: white;}");
+			goog.cssom.addCssRule(ss,"a.cbwlogo-a:active { text-decoration:none; color: white;}");
+			goog.cssom.addCssRule(ss,"a.cbwlogo-a:visited { text-decoration:none; color: white;}");
+		}
 	}
 	
-	this.insertWidget = function(domain,cb_key,nodeId){
+	this.insertWidget = function(domain,cb_key,nodeId,opt_exlexp,opt_title,opt_nostyle){
+		title = opt_title;
+		noStyle = opt_nostyle;
 		topNode = goog.dom.getElement(nodeId);
-		getData(domain,cb_key,drawWidget)
+		getData(domain,cb_key,drawWidget,opt_exlexp);
 	}
 }
