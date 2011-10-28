@@ -36,7 +36,21 @@
 
 </body>
 <script type="text/javascript"> 
+
+	function querySt(key) {
+		url = window.location.search.substring(1);
+		params = url.split("&");
+		for (i = 0; i < params.length; i++) {
+			pair = params[i].split("=");
+			if (pair[0] == key) {
+				return pair[1];
+			}
+		}
+	}
+	
+	console.debug(querySt("key"));
+
 	var chartBeatWidget = new cb.topWidget();
-	chartBeatWidget.insertWidget('nytimes.com','','topnode');
+	chartBeatWidget.insertWidget(querySt("site"),querySt("key"), 'topnode');
 </script>
 </html>
