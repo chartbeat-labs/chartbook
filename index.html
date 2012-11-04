@@ -13,7 +13,7 @@
 	window.fbAsyncInit = function() {
 	  FB.init({
 	    appId      : '305363076143749', // App ID
-	    channelURL : '//local.chartbeat.com:8080/chartbook/channel.html', // Channel File
+	    channelURL : '//chartbeat.github.com/chartbook/channel.html', // Channel File
 	    status     : true, // check login status
 	    cookie     : true, // enable cookies to allow the server to access the session
 	    oauth      : false, // enable OAuth 2.0
@@ -51,6 +51,6 @@
 	console.debug(querySt("key"));
 
 	var chartBeatWidget = new cb.topWidget();
-	chartBeatWidget.insertWidget(querySt("site"),querySt("key"), 'topnode');
+	chartBeatWidget.insertWidget(querySt("host"),querySt("apikey"), 'topnode');
 </script>
 </html>
